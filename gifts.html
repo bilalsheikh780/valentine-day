@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: pink;
+            margin: 0;
+            padding: 0;
+            background-image: url('/สีชมพู\ สีขาว\ น่ารัก\ ทันสมัย\ วาเลนไทน์\ ความรัก\ ขอบกระดาษ\ เอกสาร\ A4\ \(1\).jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto 0;
+        }
+
+        .gifts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 30px;
+        }
+
+        .gift-box img {
+            width: 140px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gift-box img:hover {
+            transform: scale(1.1);
+        }
+
+        button {
+            display: block;
+        }
+
+        .video-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .video-box {
+            position: relative;
+            width: 360px;
+            height: 640px;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 50px;
+            right: 15px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Letter Popup Styles */
+        .letter-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Floating Hearts */
+        .heart {
+            position: absolute;
+            font-size: 25px;
+            color: #ff69b4;
+            animation: floatHeart 4s ease-in infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Envelope Container - CENTERED */
+        .envelope-container {
+            position: relative;
+            animation: envelopeZoom 1s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 250PX;
+        }
+
+        @keyframes envelopeZoom {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .envelope {
+            width: min(350px, 90vw);
+            height: min(250px, 65vw);
+            position: relative;
+        }
+
+        .envelope-back {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fb4 100%);
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .envelope-flap {
+            width: 0;
+            height: 0;
+            border-left: min(175px, 45vw) solid transparent;
+            border-right: min(175px, 45vw) solid transparent;
+            border-top: min(125px, 32.5vw) solid #ff4d7d;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: top center;
+            animation: openFlap 1.5s ease 0.5s forwards;
+            z-index: -10;
+        }
+
+        @keyframes openFlap {
+            to {
+                transform: rotateX(-180deg);
+            }
+        }
+
+        /* Letter Paper */
+        .letter-paper {
+            width: min(320px, 85vw);
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: min(40px, 10vw);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            animation: pullOutLetter 1.5s ease 2s forwards;
+            max-height: min(170px, 45vw);
+            overflow: hidden;
+        }
+
+        @keyframes pullOutLetter {
+            to {
+                transform: translateX(-50%) translateY(min(-220px, -58vw));
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+        }
+
+        .letter-content {
+            opacity: 0;
+            animation: showContent 1s ease 3.5s forwards;
+        }
+
+        @keyframes showContent {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .letter-content h1 {
+            color: #ff4d7d;
+            font-size: clamp(20px, 5vw, 28px);
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .letter-content p {
+            color: #333;
+            line-height: 1.6;
+            font-size: clamp(13px, 3.5vw, 16px);
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .letter-content .signature {
+            text-align: right;
+            font-style: italic;
+            color: #ff4d7d;
+            margin-top: 15px;
+            font-size: clamp(15px, 4vw, 18px);
+        }
+
+        /* Letter Close Button */
+        .letter-close-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10001;
+            background: #ff4d7d;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 77, 125, 0.5);
+        }
+
+        .letter-close-btn:hover {
+            background: #ff2d5d;
+            transform: rotate(90deg);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 480px) {
+            .letter-paper {
+                padding: 15px;
+            }
+            
+            .letter-content p {
+                line-height: 1.5;
+                margin-bottom: 10px;
+            }
+
+            .envelope {
+                margin-top: -10vh;
+            }
+        }
+
+        .main-wrapper .gift-box H1{
+            font-size: 25px;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-transform: capitalize;
+        }
+
+        .reason-popup{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:flex-end;
+    z-index:9999;
+    font-family:'Poppins', sans-serif;
+}
+
+.reason-box{
+    background:white;
+    width:100%;
+    max-width:100%;
+    border-radius:25px 25px 0 0;
+    padding:25px 20px 35px 20px;
+    box-shadow:0 -10px 40px rgba(0,0,0,0.3);
+    animation: slideUp 0.4s ease;
+    text-align:center;
+}
+
+@keyframes slideUp{
+    from{ transform:translateY(100%); }
+    to{ transform:translateY(0); }
+}
+
+.reason-title{
+    font-size:16px;
+    font-weight:600;
+    color:#ff2d6f;
+    margin-bottom:15px;
+}
+
+.reason-text{
+    font-size:15px;
+    color:#444;
+    line-height:1.6;
+    min-height:60px;
+}
+
+.reason-box button{
+    margin-top:20px;
+    padding:10px 25px;
+    border:none;
+    background:#ff2d6f;
+    color:white;
+    border-radius:30px;
+    font-size:14px;
+}
+
+.reason-box button:disabled{
+    background:gray;
+}
+
+
+.back-button{
+    display: flex;
+    justify-content: center;
+}
+.explore-btn{
+
+            margin-top: 20px;
+            border: 4px dotted white;
+            padding: 10px 40px;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 8px;
+            background-color: white;
+            background: #e91e63;
+            font-family: mainFont;
+        }
+
+        .explore-btn:hover{
+            border: 4px dotted #e91e63;
+            padding: 10px 40px;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 8px;
+            background-color: white;
+            font-family: mainFont;
+            transition: 0.5s;
+        }
+
+        a{
+            text-decoration: none;
+            color: #eee;
+        }
+
+        a:hover{
+            color:#e91e63;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="gifts">
+            <div class="gift-box">
+                <img src="/Purple and White Modern Business Organizational Structure Instagram Post.jpg" alt="">
+                <H1>Gift 1</H1>
+            </div>
+            <div class="gift-box" id="giftBox2">
+                <img src="/Purple and White Modern Business Organizational Structure Instagram Post.jpg" alt="">
+                <H1>Gift 2</H1>
+            </div>
+            <div class="gift-box">
+                <img src="/Purple and White Modern Business Organizational Structure Instagram Post.jpg" alt="">
+                <H1>Gift 3</H1>
+            </div>
+            <div class="gift-box">
+                <img src="/Purple and White Modern Business Organizational Structure Instagram Post.jpg" alt="">
+                <H1>Gift 4</H1>
+            </div>
+        </div>
+        <div class="back-button"><button class="explore-btn"><a href="/gifts.html">BACK</a></button></div>
+
+        <!-- Video Popup -->
+        <div class="video-popup" id="videoPopup">
+            <div class="video-box">
+                <span class="close-btn" onclick="closeVideoPopup()">×</span>
+                <video id="giftVideo" playsinline>
+                    <source src="/0208.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <!-- Letter Popup -->
+        <div class="letter-popup" id="letterPopup">
+            <span class="letter-close-btn" onclick="closeLetterPopup()">×</span>
+            
+            <div class="envelope-container">
+                <div class="envelope">
+                    <div class="envelope-back"></div>
+                    <div class="letter-paper">
+                        <div class="letter-content">
+                            <h1>💕 My Dearest Valentine 💕</h1>
+                            <p>
+                                Har pal tumhare saath bitana ek khubsurat khwab ki tarah hai. 
+                                Tumhari muskurahat meri duniya ko roshan karti hai, aur tumhari 
+                                har baat mere dil ko chhoo jaati hai.
+                            </p>
+                            <p>
+                                Is Valentine's Day par main bas yahi kehna chahta hoon ki tum 
+                                mere liye kuch khaas ho, aur meri zindagi mein tumhara hona 
+                                sabse badi khushi hai. 
+                            </p>
+                            <p>
+                                Tumhare bina yeh pal adhure hain. Happy Valentine's Day, my love! ❤️
+                            </p>
+                            <div class="signature">
+                                ~ Forever Yours 💖
+                            </div>
+                        </div>
+                    </div>
+                    <div class="envelope-flap"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Reason Popup -->
+<div class="reason-popup" id="reasonPopup">
+    <div class="reason-box">
+        <span class="close-btn" onclick="closeReasonPopup()">×</span>
+
+        <h1 class="reason-title">12 Reasons Why I Adore You 💖</h1>
+
+        <p id="reasonText" class="reason-text">
+            1. Tumhari smile jo mera din bana deti hai.
+        </p>
+
+        <button id="nextBtn" onclick="nextReason()">Next ➜</button>
+    </div>
+</div>
+
+
+    </div>
+
+    <script>
+        const gifts = document.querySelectorAll(".gift-box");
+        const videoPopup = document.getElementById("videoPopup");
+        const video = document.getElementById("giftVideo");
+        const letterPopup = document.getElementById("letterPopup");
+
+        // Gift 3 - Video Popup (index 2)
+        gifts[2].addEventListener("click", () => {
+            videoPopup.style.display = "flex";
+            video.currentTime = 0;
+            video.muted = false;
+            video.volume = 1;
+            video.play();
+        });
+
+        // Gift 2 - Letter Popup (index 1)
+        gifts[1].addEventListener("click", () => {
+            letterPopup.style.display = "flex";
+            createFloatingHearts();
+        });
+
+        function closeVideoPopup() {
+            videoPopup.style.display = "none";
+            video.pause();
+        }
+
+        function closeLetterPopup() {
+            letterPopup.style.display = "none";
+            document.querySelectorAll('.heart').forEach(h => h.remove());
+        }
+
+        // Floating Hearts Animation
+        function createFloatingHearts() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 2 + 's';
+                    letterPopup.appendChild(heart);
+                }, i * 200);
+            }
+        }
+
+        // Close on outside click
+        letterPopup.addEventListener('click', (e) => {
+            if (e.target === letterPopup) {
+                closeLetterPopup();
+            }
+        });
+
+        // ================= REASONS POPUP WORKING =================
+
+const reasonPopup = document.getElementById("reasonPopup");
+const reasonText = document.getElementById("reasonText");
+const nextBtn = document.getElementById("nextBtn");
+
+const reasons = [
+"1. Tumhari smile jo mera din bana deti hai.",
+"2. Tumhara caring nature.",
+"3. Tumhari simplicity.",
+"4. Tumhari honesty.",
+"5. Tumhara confidence.",
+"6. Tumhara cute sa gussa.",
+"7. Tumhari baatein jo sukoon deti hain.",
+"8. Tumhara support.",
+"9. Tumhari loyalty.",
+"10. Tumhari positive energy.",
+"11. Tumhara mere liye waqt nikalna.",
+"12. Aur sabse badi wajah… tum meri ho ❤️"
+];
+
+let reasonIndex = 0;
+
+// Gift 1 click → open popup
+gifts[0].addEventListener("click", () => {
+    reasonPopup.style.display = "flex";
+    reasonIndex = 0;
+    reasonText.innerText = reasons[reasonIndex];
+    nextBtn.disabled = false;
+    nextBtn.innerText = "Next ➜";
+});
+
+// Next button click
+nextBtn.addEventListener("click", () => {
+    reasonIndex++;
+
+    if (reasonIndex < reasons.length) {
+        reasonText.innerText = reasons[reasonIndex];
+    }
+
+    if (reasonIndex === reasons.length - 1) {
+        nextBtn.disabled = true;
+        nextBtn.innerText = "Forever ♾️";
+    }
+});
+
+// Close button
+function closeReasonPopup(){
+    reasonPopup.style.display = "none";
+}
+
+// Outside click close
+reasonPopup.addEventListener("click", (e) => {
+    if (e.target === reasonPopup) {
+        closeReasonPopup();
+    }
+});
+
+    </script>
+
+</body>
+
+</html>

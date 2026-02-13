@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentin!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: pink;
+            margin: 0;
+            padding: 0;
+            background-image: url('/สีชมพู\ สีขาว\ น่ารัก\ ทันสมัย\ วาเลนไทน์\ ความรัก\ ขอบกระดาษ\ เอกสาร\ A4\ \(1\).jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        @font-face {
+            font-family: mainFont;
+            src: url(/mtf_be_mine/MTFBeMine.ttf);
+        }
+
+        .question {
+            padding-top: 60px;
+            text-align: center;
+            font-size: 25px;
+            text-transform: capitalize;
+            font-family: mainFont;
+            color: #fff;
+        }
+
+        .buttons {
+            margin: 0;
+            padding: 80px 0px;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .yes-btn {
+            border: 4px dotted white;
+            padding: 10px 60px;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 8px;
+            background-color: white;
+            background: #e91e63;
+            color: #fff;
+            font-family: mainFont;
+        }
+
+        .no-btn {
+            color: #e91e63;
+            border: 4px dotted #e91e63;
+            padding: 10px 60px;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 8px;
+            background-color: white;
+            background: #eee;
+            font-family: mainFont;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            /* background: #fff; */
+            width: 350px;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .card img {
+            width: 60%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .card h1 {
+            font-size: 24px;
+            margin: 15px 0;
+            color: #e91e63;
+            font-family: mainFont;
+            text-transform: uppercase;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: black;
+            font-weight: 700;
+            text-transform: uppercase;
+            min-height: 40px;
+            margin-bottom: -20%;
+            font-family: mainFont;
+        }
+
+        .buttons {
+            display: block;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: -20%;
+        }
+
+        button {
+            display: block;
+            justify-content: center;
+            margin: 0 auto;
+            width: 80%;
+            margin-bottom: 22px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .explore-btn{
+            display: none;
+            margin-top: 80px;
+            border: 4px dotted white;
+            padding: 10px 40px;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 8px;
+            background-color: white;
+            background: #e91e63;
+            font-family: mainFont;
+        }
+
+        .explore-btn:hover{
+            border: 4px dotted #e91e63;
+            padding: 10px 40px;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 8px;
+            background-color: white;
+            font-family: mainFont;
+            transition: 0.5s;
+        }
+
+        a{
+            text-decoration: none;
+            color: #eee;
+        }
+
+        a:hover{
+            color:#e91e63;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="question-wrapper">
+            <h1 class="question">
+                will you be my valentine...?
+            </h1>
+            <div class="card">
+                <img id="cardImage" src="/propose.jpg">
+                <h1 id="cardTitle">💘</h1>
+                <p id="cardText">I promise unlimited smiles & care 😌</p>
+
+                <div class="buttons">
+                    <button class="yes-btn" id="yes-btn" onclick="sayYes()">Yes</button>
+                    <button class="no-btn" id="no-btn" onclick="sayNo()" ondblclick="say_No">No</button>
+                </div>
+                <button class="explore-btn" id="yes-btn" onclick="sayYes()"><a href="/gifts.html">Explore Your Gifts</a></button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        const noMessages = [
+            "No 😢",
+            "Are you sure?",
+            "Really sure??",
+            "Think again 💭",
+            "Why so cold? 🥶",
+            "We could be cute together 🥺",
+            "Pleaseee 💔",
+            "Ok... this hurts 😭",
+            "Let's start over 💞"
+        ];
+
+        let noCount = 0;
+
+        function sayYes() {
+            document.getElementById("cardImage").src = "/yes.jpg";
+            document.getElementById("cardTitle").innerText = "Yayyyy! 💖";
+            document.getElementById("cardText").innerText = "I knew you would say YES 😍";
+            document.querySelector(".explore-btn").style.display = "block";
+            document.querySelector(".buttons").style.display = "none";
+        }
+
+        function sayNo() {
+            document.getElementById("cardImage").src = "/no.png";
+            document.getElementById("cardTitle").innerText = "Wait 😳";
+            document.getElementById("cardText").innerText = noMessages[noCount];
+
+            noCount++;
+            if (noCount >= noMessages.length) {
+                noCount = 0;
+            }
+        }
+
+        let yesBtn = document.getElementById("yes-btn");
+        let noBtn = document.getElementById("no-btn");
+
+        let scale = 1;
+
+        noBtn.addEventListener("click", () => {
+            scale += 0.2; // increase size each time
+            yesBtn.style.transform = `scale(${scale})`;
+            if (navigator.vibrate) {
+                navigator.vibrate(600); // long vibration
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: pink;
+            margin: 0;
+            padding: 0;
+            background-image: url('/สีชมพู\ สีขาว\ น่ารัก\ ทันสมัย\ วาเลนไทน์\ ความรัก\ ขอบกระดาษ\ เอกสาร\ A4\ \(1\).jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .gallery {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide img {
+            width: 100%;
+            display: block;
+        }
+
+        .nav-buttons {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+
+        .nav-btn {
+            pointer-events: all;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            color: #ff69b4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        /* Hidden Audio Player */
+        #backgroundMusic {
+            display: none;
+        }
+
+        /* Optional: Music Control Button (agar chahiye to uncomment karo) */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 105, 180, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(255, 105, 180, 1);
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Hidden Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="/MAIN AGAR KAHOON - Om Shanti Om  Karaoke with Lyrics  AlgoRhythm Studio.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Optional: Music Control Button -->
+    <!-- <button class="music-control" id="musicToggle">🎵</button> -->
+
+    <div class="main-wrapper">
+        <div class="gallery">
+            <div class="slider-container" id="sliderContainer">
+                <div class="slide">
+                    <img src="/PICS/1.jpg" alt="Valentine's Day 1">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/2.jpg" alt="Valentine's Day 2">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/3.jpg" alt="Valentine's Day 3">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/4.jpg" alt="Valentine's Day 4">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/5.jpg" alt="Valentine's Day 5">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/6.jpg" alt="Valentine's Day 6">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/7.jpg" alt="Valentine's Day 7">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/8.jpg" alt="Valentine's Day 8">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/9.jpg" alt="Valentine's Day 9">
+                </div>
+                <div class="slide">
+                    <img src="/PICS/10.jpg" alt="Valentine's Day 10">
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prevBtn">❮</button>
+                <button class="nav-btn" id="nextBtn">❯</button>
+            </div>
+
+            <div class="dots" id="dotsContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        const sliderContainer = document.getElementById('sliderContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const slides = document.querySelectorAll('.slide');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        // Auto-play music on page load
+        window.addEventListener('load', () => {
+            // Try to play immediately
+            backgroundMusic.play().catch(error => {
+                console.log('Autoplay prevented. Waiting for user interaction...');
+                // If autoplay is blocked, play on first user interaction
+                document.body.addEventListener('click', () => {
+                    backgroundMusic.play();
+                }, { once: true });
+            });
+        });
+
+        // Create dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlider() {
+            sliderContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // Optional: Music Control Button (uncomment CSS aur HTML mein bhi)
+        /*
+        const musicToggle = document.getElementById('musicToggle');
+        let isPlaying = true;
+
+        musicToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                musicToggle.textContent = '🔇';
+            } else {
+                backgroundMusic.play();
+                musicToggle.textContent = '🎵';
+            }
+            isPlaying = !isPlaying;
+        });
+        */
+    </script>
+
+</body>
+
+</html>
